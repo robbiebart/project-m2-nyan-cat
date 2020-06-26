@@ -12,8 +12,14 @@ const GAME_HEIGHT = 500;
 // as well as the maximum number of enemies on screen at any given time.
 const ENEMY_WIDTH = 75;
 const ENEMY_HEIGHT = 156;
-const MAX_ENEMIES = 3;
+const MAX_ENEMIES = 1;
 
 // These constants represent the player width and height.
 const PLAYER_WIDTH = 75;
 const PLAYER_HEIGHT = 54;
+
+
+// *** if there was one lane we're gonna ask is there any enemy below where player is (we're 54 high, so below ~450 px ); if yes, 
+// game over; now that there are multiple lanes, we check the horizontal position as well
+// we have to way to grab points out of player 
+

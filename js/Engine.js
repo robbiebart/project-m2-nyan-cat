@@ -57,17 +57,58 @@ class Engine {
     // We check if the player is dead. If he is, we alert the user
     // and return from the method (Why is the return statement important?)
     if (this.isPlayerDead()) {
-      window.alert('Game over');
+      window.alert("Game over");
       return;
     }
 
     // If the player is not dead, then we put a setTimeout to run the gameLoop in 20 milliseconds
     setTimeout(this.gameLoop, 20);
+    // this is
   };
 
   // This method is not implemented correctly, which is why
   // the burger never dies. In your exercises you will fix this method.
   isPlayerDead = () => {
-    return false;
+    let deadPlayer = false;
+    this.enemies.forEach((enemy) => {
+      if (enemy.y + ENEMY_HEIGHT > this.player.y && enemy.x === this.player.x) {
+        deadPlayer = true;
+      }
+    });
+    return deadPlayer;
+    // *** here we check to see if contact is made, if else (if it's not - game not over, if it is, game over)
   };
 }
+// console.log('enemy.x', enemy.x);
+//       console.log('this.player.x', this.player.x);
+//       console.log('enemy.y', enemy.y);
+//       console.log('this.player.y', this.player.y);
+// This method is not implemented correctly, which is why
+// the burger never dies. In your exercises you will fix this method.
+// isPlayerDead = () => {
+//   this.enemies.forEach((enemy) => {
+//     // if (enemy.x === this.player.x && enemy.y > this.player.y)
+//   }
+//   console.log("hello");
+// }
+//   // *** here we check to see if contact is made, if else (if it's not - game not over, if it is, game over)
+// };
+
+// *** for question 1 you have to search for collection detection js, you'll eventually come across some kind of
+// *** mathematical equation that's about 4 lines long, that's wht you're looking for
+// collision calculates each 4 edges of player w 4 edges of enemy
+/* 
+First, look at the gameLoop method of the Engine. There's a part of the function that calls this.isPlayerDead() to verify if the 
+player has died based on the current situation.
+
+Next, look at the isPlayerDead method of the Engine. Notice that it's always returning false, which means that the player is 
+always reported to be alive.
+
+Here, we are going to rewrite the code of this function to actually check if the player should be dead. We will do this by 
+looping over all the enemies, and checking if their box overlaps the player box.
+
+If at least one enemy overlaps the player, then your function should return true. Otherwise it should return `false.
+
+A good strategy would be to console.log both this.player and this.enemies. When you look in the console, you will see that 
+those two objects contain the information necessary to detect a collision.
+*/
