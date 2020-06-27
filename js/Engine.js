@@ -33,8 +33,8 @@ class Engine {
     let timeDiff = new Date().getTime() - this.lastFrame;
 
     this.lastFrame = new Date().getTime();
-    // We use the number of milliseconds since the last call to gameLoop to update the enemy positions.
-    // Furthermore, if any enemy is below the bottom of our game, its destroyed property will be set. (See Enemy.js)
+    // this updates the enemy position, using the timeDiff to calculate the diff b/w the last update and this one (every 20ms) 
+    // using this diff, the enemy position is updated
     this.enemies.forEach((enemy) => {
       enemy.update(timeDiff);
     });
@@ -42,6 +42,10 @@ class Engine {
     // We remove all the destroyed enemies from the array referred to by \`this.enemies\`.
     // We use filter to accomplish this.
     // Remember: this.enemies only contains instances of the Enemy class.
+    /*
+    each enemy is an object in the enemies array; each of these objects has the key destroyed, w value true(destroyed) or 
+    false (not destroyed)
+    */
     this.enemies = this.enemies.filter((enemy) => {
       return !enemy.destroyed;
     });
@@ -60,10 +64,13 @@ class Engine {
       window.alert("Game over");
       return;
     }
-
+    /* if the player is dead, this return short circuits the gameloop before we hit the next setTime out, thus ending 
+    the game by not updating its loop, which the game, cause the game loop looping is the game
+    */
     // If the player is not dead, then we put a setTimeout to run the gameLoop in 20 milliseconds
     setTimeout(this.gameLoop, 20);
     // this is
+    // set timeout takes a callback function, and a time; when the time runs out it calls the callsback
   };
 
   // This method is not implemented correctly, which is why

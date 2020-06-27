@@ -20,7 +20,16 @@ const nextEnemySpot = (enemies) => {
   enemies.forEach((enemy) => {
     spotsTaken[enemy.spot] = true;
   });
-
+  /* .spot defined somewhre in the enemy class, it has to be cause it's being called on an enemy
+  enemy is a bunch of different things, and every enemy will have a diff this.spot attribute/key
+  engine calls this function (nextEnemySpot) it gets a returned value, and that value is going to be used to create an enemy
+  when an enemy gets created, it gets defined an attribute this.spot
+  every time we create an enemy, this function gets called, it will usually give a diff return value
+  this function determines uniqueness, to avoid overlapping enemies
+  how can we determine that a lane is taken, and not place an enemy there 
+  spotsTaken is a different array than enemies that looks at the enemies array, asks "for each enemy, say 'in its spot, true'
+  so that later, enemies can be added to the elements of spotsTaken that are false
+  */
   // We are now in a position to find out position. We declare a variable candidate that is initially undefined.
   // candidate represents a potential spot. The variable will be repeatedly assigned different numbers.
   // We will randomly try different spots until we find out that is available
@@ -29,6 +38,18 @@ const nextEnemySpot = (enemies) => {
     // candidate is assigned a random number between 0 and enemySpots (not including enemySpots). (what number is enemySpots?)
     candidate = Math.floor(Math.random() * enemySpots);
   }
+
+  // do {
+  //   candidate = Math.floor(Math.random() * enemySpots);
+  // } while (spotsTaken[candidate])
+  // above would also work
+  /*
+  we want to place an enemy at an empty lane, not the first one but a random one
+  by setting up a while loop that chooses a random index, 
+  if spots taken at the index is true, it's going to continue looping (by randomly choosing an index) until it finds a lane that
+  is false (empty), and then once that happens, that index becomes the next enemy's spot
+  it just keeps redefining index until it finds an empty
+  */
 
   // When the while loop is finished, we are assured that we have a number that corresponds to a free spot, so we return it.
   return candidate;
