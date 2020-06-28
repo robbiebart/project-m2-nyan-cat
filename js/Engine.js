@@ -22,53 +22,74 @@ class Engine {
   //  - Updates the enemy positions
   //  - Detects a collision between the player and any enemy
   //  - Removes enemies that are too low from the enemies array
-  gameLoop = () => {
-    // This code is to see how much time, in milliseconds, has elapsed since the last
-    // time this method was called.
-    // (new Date).getTime() evaluates to the number of milliseconds since January 1st, 1970 at midnight.
+
+  calcTimeDifference = () => {
+    let currentTime = new Date().getTime();
+
     if (this.lastFrame === undefined) {
       this.lastFrame = new Date().getTime();
     }
+    let timeDiff = currentTime - this.lastFrame;
+    this.lastFrame = currentTime;
 
-    let timeDiff = new Date().getTime() - this.lastFrame;
+    return timeDiff;
+  };
 
-    this.lastFrame = new Date().getTime();
-    // this updates the enemy position, using the timeDiff to calculate the diff b/w the last update and this one (every 20ms) 
-    // using this diff, the enemy position is updated
+  updateEnemyPosition = (timeDiff) => {
     this.enemies.forEach((enemy) => {
       enemy.update(timeDiff);
     });
-
-    // We remove all the destroyed enemies from the array referred to by \`this.enemies\`.
-    // We use filter to accomplish this.
-    // Remember: this.enemies only contains instances of the Enemy class.
-    /*
-    each enemy is an object in the enemies array; each of these objects has the key destroyed, w value true(destroyed) or 
-    false (not destroyed)
-    */
+  };
+  /*
+  each enemy is an object in the enemies array; each of these objects has the key destroyed, w value true(destroyed) or 
+  false (not destroyed)
+  */
+  filterDestroyedEnemies = () => {
     this.enemies = this.enemies.filter((enemy) => {
       return !enemy.destroyed;
     });
-
-    // We need to perform the addition of enemies until we have enough enemies.
+  };
+  /*
+    each enemy is an object in the enemies array; each of these objects has the key destroyed, w value true(destroyed) or 
+    false (not destroyed)
+    */
+  addEnemies = () => {
     while (this.enemies.length < MAX_ENEMIES) {
-      // We find the next available spot and, using this spot, we create an enemy.
-      // We add this enemy to the enemies array
       const spot = nextEnemySpot(this.enemies);
       this.enemies.push(new Enemy(this.root, spot));
     }
+  };
+  checkIfDeadOrContinue = () => {
+    if (this.isPlayerDead()) {
+      const gameOver = new Text(this.root, GAME_WIDTH / 2, GAME_HEIGHT / 2);
+      // console.log(gameOver);
+      gameOver.update("Game over you fucking suck");
+
+      return;
+    } else {
+      this.continueGame();
+    }
+  };
+
+  continueGame = () => {
+    setTimeout(this.gameLoop, 20);
+  };
+
+  gameLoop = () => {
+    let timeDiff = this.calcTimeDifference();
+    this.updateEnemyPosition(timeDiff);
+    this.filterDestroyedEnemies();
+    this.addEnemies();
+    this.checkIfDeadOrContinue();
 
     // We check if the player is dead. If he is, we alert the user
     // and return from the method (Why is the return statement important?)
-    if (this.isPlayerDead()) {
-      window.alert("Game over");
-      return;
-    }
+
     /* if the player is dead, this return short circuits the gameloop before we hit the next setTime out, thus ending 
     the game by not updating its loop, which the game, cause the game loop looping is the game
     */
     // If the player is not dead, then we put a setTimeout to run the gameLoop in 20 milliseconds
-    setTimeout(this.gameLoop, 20);
+    // setTimeout(this.gameLoop, 20);
     // this is
     // set timeout takes a callback function, and a time; when the time runs out it calls the callsback
   };
@@ -82,7 +103,9 @@ class Engine {
         deadPlayer = true;
       }
     });
+
     return deadPlayer;
+
     // *** here we check to see if contact is made, if else (if it's not - game not over, if it is, game over)
   };
 }

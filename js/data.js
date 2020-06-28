@@ -19,8 +19,6 @@ const MAX_ENEMIES = 1;
 const PLAYER_WIDTH = 75;
 const PLAYER_HEIGHT = 54;
 
-
-// *** if there was one lane we're gonna ask is there any enemy below where player is (we're 54 high, so below ~450 px ); if yes, 
+// *** if there was one lane we're gonna ask is there any enemy below where player is (we're 54 high, so below ~450 px ); if yes,
 // game over; now that there are multiple lanes, we check the horizontal position as well
-// we have to way to grab points out of player 
-
+// we have to way to grab points out of player

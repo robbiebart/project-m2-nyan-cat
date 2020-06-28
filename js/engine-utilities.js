@@ -7,32 +7,15 @@
 // The purpose of this function is to determine in which slot to place our next enemy.
 // The possibilities are 0, 1, 2, 3 or 4.
 const nextEnemySpot = (enemies) => {
+  
   // enemySpots will refer to the number of spots available (can you calculate it?)
   const enemySpots = GAME_WIDTH / ENEMY_WIDTH;
 
-  // To find out where to place an enemy, we first need to find out which are the spots available.
-  // We don't want to place two enemies in the same lane. To accomplish this, we first create an
-  // array with 5 elements (why 5?) and each element is false.
-  // We then use forEach to iterate through all the enemies.
-  // If you look at the constructor of the Enemy class, you can see that every instance will have a spot property.
-  // We can use this property to modify the spotsTaken array.
   const spotsTaken = [false, false, false, false, false];
   enemies.forEach((enemy) => {
     spotsTaken[enemy.spot] = true;
   });
-  /* .spot defined somewhre in the enemy class, it has to be cause it's being called on an enemy
-  enemy is a bunch of different things, and every enemy will have a diff this.spot attribute/key
-  engine calls this function (nextEnemySpot) it gets a returned value, and that value is going to be used to create an enemy
-  when an enemy gets created, it gets defined an attribute this.spot
-  every time we create an enemy, this function gets called, it will usually give a diff return value
-  this function determines uniqueness, to avoid overlapping enemies
-  how can we determine that a lane is taken, and not place an enemy there 
-  spotsTaken is a different array than enemies that looks at the enemies array, asks "for each enemy, say 'in its spot, true'
-  so that later, enemies can be added to the elements of spotsTaken that are false
-  */
-  // We are now in a position to find out position. We declare a variable candidate that is initially undefined.
-  // candidate represents a potential spot. The variable will be repeatedly assigned different numbers.
-  // We will randomly try different spots until we find out that is available
+ 
   let candidate = undefined;
   while (candidate === undefined || spotsTaken[candidate]) {
     // candidate is assigned a random number between 0 and enemySpots (not including enemySpots). (what number is enemySpots?)
@@ -85,3 +68,14 @@ const addBackground = (root) => {
   whiteBox.style.background = '#fff';
   root.append(whiteBox);
 };
+
+ /* .spot defined somewhre in the enemy class, it has to be cause it's being called on an enemy
+  enemy is a bunch of different things, and every enemy will have a diff this.spot attribute/key
+  engine calls this function (nextEnemySpot) it gets a returned value, and that value is going to be used to create an enemy
+  when an enemy gets created, it gets defined an attribute this.spot
+  every time we create an enemy, this function gets called, it will usually give a diff return value
+  this function determines uniqueness, to avoid overlapping enemies
+  how can we determine that a lane is taken, and not place an enemy there 
+  spotsTaken is a different array than enemies that looks at the enemies array, asks "for each enemy, say 'in its spot, true'
+  so that later, enemies can be added to the elements of spotsTaken that are false
+  */
