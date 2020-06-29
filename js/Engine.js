@@ -14,6 +14,12 @@ class Engine {
     // Initially, we have no enemies in the game. The enemies property refers to an array
     // that contains instances of the Enemy class
     this.enemies = [];
+
+    this.startTime = new Date().getTime();
+
+    this.score = 0;
+
+    this.text = new Text(this.root, 50, 50);
     // We add the background image to the game
     addBackground(this.root);
   }
@@ -59,11 +65,12 @@ class Engine {
       this.enemies.push(new Enemy(this.root, spot));
     }
   };
+
   checkIfDeadOrContinue = () => {
     if (this.isPlayerDead()) {
       const gameOver = new Text(this.root, GAME_WIDTH / 2, GAME_HEIGHT / 2);
       // console.log(gameOver);
-      gameOver.update("Game over you fucking suck");
+      gameOver.update("GG NO RE");
 
       return;
     } else {
@@ -75,11 +82,20 @@ class Engine {
     setTimeout(this.gameLoop, 20);
   };
 
+  scoreCounter = () => {
+    let gameTime = new Date().getTime() - this.startTime;
+    let finalScore = Math.floor(gameTime / 100 + this.score);
+    this.text.update(finalScore);
+  };
+
   gameLoop = () => {
+    this.scoreCounter();
     let timeDiff = this.calcTimeDifference();
     this.updateEnemyPosition(timeDiff);
     this.filterDestroyedEnemies();
     this.addEnemies();
+
+    // this.text.update("1337");
     this.checkIfDeadOrContinue();
 
     // We check if the player is dead. If he is, we alert the user
