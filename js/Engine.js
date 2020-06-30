@@ -52,6 +52,9 @@ class Engine {
   */
   filterDestroyedEnemies = () => {
     this.enemies = this.enemies.filter((enemy) => {
+      if (enemy.destroyed === true) {
+        this.score += 100;
+      }
       return !enemy.destroyed;
     });
   };
@@ -78,6 +81,15 @@ class Engine {
     }
   };
 
+  // checkIfEnemyHit = () => {
+  //   if (this.isEnemyDead()) {
+  //     (enemy.destroyed === true) {
+  //       this.score += 100;
+  //     }
+  //     return !enemy.destroyed;
+  //   }
+  // }
+
   continueGame = () => {
     setTimeout(this.gameLoop, 20);
   };
@@ -85,8 +97,33 @@ class Engine {
   scoreCounter = () => {
     let gameTime = new Date().getTime() - this.startTime;
     let finalScore = Math.floor(gameTime / 100 + this.score);
+    // if (thisenemy.y + ENEMY_HEIGHT > this.player.y && enemy.x !== this.player.x) {
+    //   this.score + 100;
+    // }
     this.text.update(finalScore);
   };
+
+  isCollide(
+    element1,
+    element2,
+    element1Width,
+    element2Width,
+    element1Height,
+    element2Height
+  ) {
+    return !(
+      element1.y + element1Height - 15 < element2.y ||
+      element1.y > element2.y + element2Height - 15 ||
+      element1.x + element1Width - 15 < element2.x ||
+      element1.x > element2.x + element2Width - 15
+    );
+  }
+
+  // addDeadEnemiesToScore = () => {
+  //   if (enemy.y + ENEMY_HEIGHT > this.player.y && enemy.x !== this.player.x) {
+  //     this.score + 100;
+  //   }
+  // }
 
   gameLoop = () => {
     this.scoreCounter();
@@ -94,9 +131,11 @@ class Engine {
     this.updateEnemyPosition(timeDiff);
     this.filterDestroyedEnemies();
     this.addEnemies();
-
+    this.player.updateBulletPosition();
     // this.text.update("1337");
     this.checkIfDeadOrContinue();
+    this.player.filterDestroyedBullets();
+    this.killHitEnemies();
 
     // We check if the player is dead. If he is, we alert the user
     // and return from the method (Why is the return statement important?)
@@ -112,19 +151,97 @@ class Engine {
 
   // This method is not implemented correctly, which is why
   // the burger never dies. In your exercises you will fix this method.
+  // isPlayerDead = () => {
+  //   let deadPlayer = false;
+  //   this.enemies.forEach((enemy) => {
+  //     if (enemy.y + ENEMY_HEIGHT > this.player.y && enemy.x === this.player.x) {
+  //       deadPlayer = true;
+  //     }
+  //   });
+
+  //   return deadPlayer;
+
+  //   // *** here we check to see if contact is made, if else (if it's not - game not over, if it is, game over)
+  // };
+
   isPlayerDead = () => {
     let deadPlayer = false;
     this.enemies.forEach((enemy) => {
-      if (enemy.y + ENEMY_HEIGHT > this.player.y && enemy.x === this.player.x) {
+      if (
+        this.isCollide(
+          this.player,
+          enemy,
+          PLAYER_WIDTH,
+          ENEMY_WIDTH,
+          PLAYER_HEIGHT,
+          ENEMY_HEIGHT
+        )
+      ) {
         deadPlayer = true;
       }
     });
-
     return deadPlayer;
+  };
 
-    // *** here we check to see if contact is made, if else (if it's not - game not over, if it is, game over)
+  killHitEnemies = () => {
+    this.player.bullets.forEach((bullet) => {
+      this.enemies.forEach((enemy) => {
+        if (
+          this.isCollide(
+            bullet,
+            enemy,
+            BULLET_WIDTH,
+            ENEMY_WIDTH,
+            BULLET_HEIGHT,
+            ENEMY_HEIGHT
+          )
+        ) {
+          enemy.destroy();
+          this.filterDestroyedEnemies();
+          bullet.destroyBullet();
+          this.player.filterDestroyedBullets();
+        }
+      });
+    });
   };
 }
+
+// removeHitEnemy = () => {
+//   if (this.isEnemyDead() === true) {
+//     this.enemy.root.removeChild(this.domElement);
+//     this.enemy.destroyed = true;
+//   }
+// }
+
+// colider = (Object1, Object2, Object1_Height, Object2_Height, Object1_Width, Object2_Width) => {
+
+// }
+
+// function isCollision(element1, element2,
+//   element1Width, element2Width,
+//   element1Height, element2Height) {
+//     if (
+//       ((element2.y > element1.y) &&
+//       (element2.y < (element1.y + element1Height))) &&
+//       ((element2.x > element1.x) &&
+//       (element2.x < (element1.x + element1Width)))) {
+//       return true;
+//     }
+//   }
+
+// returns true if there's a collision; this checks to see if the elements are not touching, if they're not not
+// touching, there's a collision
+/*
+function isCollide(a, b) {
+    return !(
+        ((a.y + a.height) < (b.y)) ||
+        (a.y > (b.y + b.height)) ||
+        ((a.x + a.width) < b.x) ||
+        (a.x > (b.x + b.width))
+    );
+}
+*/
+
 // console.log('enemy.x', enemy.x);
 //       console.log('this.player.x', this.player.x);
 //       console.log('enemy.y', enemy.y);

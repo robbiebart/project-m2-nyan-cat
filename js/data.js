@@ -6,8 +6,8 @@
 // The GAME_WIDTH and GAME_HEIGHT constants denote the size
 // of the game area in pixels and is used in engine-utilities.js.
 
-const GAME_WIDTH = 375;
-const GAME_HEIGHT = 500;
+const GAME_WIDTH = 525;
+const GAME_HEIGHT = 700;
 
 // These constants represent the width and height of an enemy in pixels
 // as well as the maximum number of enemies on screen at any given time.
@@ -19,6 +19,8 @@ const MAX_ENEMIES = 1;
 const PLAYER_WIDTH = 75;
 const PLAYER_HEIGHT = 54;
 
+const BULLET_WIDTH = 20;
+const BULLET_HEIGHT = 50;
 // *** if there was one lane we're gonna ask is there any enemy below where player is (we're 54 high, so below ~450 px ); if yes,
 // game over; now that there are multiple lanes, we check the horizontal position as well
 // we have to way to grab points out of player

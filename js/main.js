@@ -18,6 +18,10 @@ const keydownHandler = (event) => {
   if (event.code === 'ArrowRight') {
     gameEngine.player.moveRight();
   }
+
+  if (event.code === 'Space') {
+    gameEngine.player.shootBullet();
+  }
 };
 
 // We add an event listener to document. document the ancestor of all DOM nodes in the DOM.
@@ -25,3 +29,7 @@ document.addEventListener('keydown', keydownHandler);
 
 // We call the gameLoop method to start the game
 gameEngine.gameLoop();
+
+/*MAKE A button, if button is clicked, do gameEngine.gameLoop (line 27); then once button is clicked, gameloop start, start music
+chrome and other browsers block music at beginning thinking its an ad
+*/

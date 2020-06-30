@@ -24,7 +24,7 @@ class Enemy {
     this.x = enemySpot * ENEMY_WIDTH;
 
     // The y position is initially less than 0 so that the enemies fall from the top. This data is stored as a property
-    // of the instance since it is needed throughout its lifetime. The destroyed property will indicate whether this enemy
+    // of the instance since it is n eeded throughout its lifetime. The destroyed property will indicate whether this enemy
     // is still in play. It is set to true whenever the enemy goes past the bottom of the screen.
     // It is used in the Engine to determine whether or not an enemy is in a particular column.
     this.y = -ENEMY_HEIGHT;
@@ -47,6 +47,10 @@ class Enemy {
     theRoot.appendChild(this.domElement);
     this.speed = Math.random() / 2 + 0.25;
   }
+  destroy = () => {
+    this.root.removeChild(this.domElement);
+    this.destroyed = true;
+  }
 
   // We set the speed property of the enemy. This determines how fast it moves down the screen.
   // To make sure that every enemy has a different speed, we use Math.random()
@@ -63,9 +67,9 @@ class Enemy {
     // of the screen and should be removed. We remove the DOM element from the root DOM element and we set
     // the destroyed property to indicate that the enemy should no longer be in play
     if (this.y > GAME_HEIGHT - PLAYER_HEIGHT) {
-      this.root.removeChild(this.domElement);
-
-      this.destroyed = true;
+      this.destroy();
     }
   }
 }
+
+

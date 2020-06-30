@@ -7,7 +7,6 @@
 // The purpose of this function is to determine in which slot to place our next enemy.
 // The possibilities are 0, 1, 2, 3 or 4.
 const nextEnemySpot = (enemies) => {
-  
   // enemySpots will refer to the number of spots available (can you calculate it?)
   const enemySpots = GAME_WIDTH / ENEMY_WIDTH;
 
@@ -15,7 +14,7 @@ const nextEnemySpot = (enemies) => {
   enemies.forEach((enemy) => {
     spotsTaken[enemy.spot] = true;
   });
- 
+
   let candidate = undefined;
   while (candidate === undefined || spotsTaken[candidate]) {
     // candidate is assigned a random number between 0 and enemySpots (not including enemySpots). (what number is enemySpots?)
@@ -38,16 +37,17 @@ const nextEnemySpot = (enemies) => {
   return candidate;
 };
 
+
 // addBackground contains all the logic to display the starry background of the game.
 // It is a variable that refers to a function.
 // The function takes one parameter
 // The parameter represents the DOM node to which we will add the background
 const addBackground = (root) => {
   // We create a new img DOM node.
-  const bg = document.createElement('img');
+  const bg = document.createElement("img");
 
   // We set its src attribute and the height and width CSS attributes
-  bg.src = 'images/stars.png';
+  bg.src = "images/245369e902fa3f065fc3044acf3fd749.jpg";
   bg.style.height = `${GAME_HEIGHT}px`;
   bg.style.width = `${GAME_WIDTH}px`;
 
@@ -57,19 +57,19 @@ const addBackground = (root) => {
   // We don't want the enemies to go beyond the lower edge of the image
   // so we place a white div to hide the enemies after they reach the bottom.
   // To see what it does, you can comment out all the remaining lines in the function to see the effect.
-  const whiteBox = document.createElement('div');
+  const whiteBox = document.createElement("div");
 
   // We put a high z-index so that the div is placed over all other DOM nodes
   whiteBox.style.zIndex = 100;
-  whiteBox.style.position = 'absolute';
+  whiteBox.style.position = "absolute";
   whiteBox.style.top = `${GAME_HEIGHT}px`;
   whiteBox.style.height = `${ENEMY_HEIGHT}px`;
   whiteBox.style.width = `${GAME_WIDTH}px`;
-  whiteBox.style.background = '#fff';
+  whiteBox.style.background = "#fff";
   root.append(whiteBox);
 };
 
- /* .spot defined somewhre in the enemy class, it has to be cause it's being called on an enemy
+/* .spot defined somewhre in the enemy class, it has to be cause it's being called on an enemy
   enemy is a bunch of different things, and every enemy will have a diff this.spot attribute/key
   engine calls this function (nextEnemySpot) it gets a returned value, and that value is going to be used to create an enemy
   when an enemy gets created, it gets defined an attribute this.spot
