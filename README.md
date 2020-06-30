@@ -2,6 +2,10 @@
 
 <p align="center"><img src="./images/screenshot.png"></p>
 
+## Demo
+
+[Play game](https://robbiebart.github.io/project-m2-nyan-cat/)
+
 # Introduction
 
 This project was designed as a way for you to practice and learn about Object Oriented Programming. A good bit of code has already been provided for you, and it makes for an _almost_ working game.
